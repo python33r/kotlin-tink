@@ -1,2 +1,2 @@
 rootProject.name = "tink"
-include("hmac")
+include("hmac", "symcipher")

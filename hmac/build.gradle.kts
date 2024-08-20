@@ -18,9 +18,9 @@ val keyFile = "build/key.json"
 val dataFile = "../data/message.txt"
 val authTag = "build/message.txt.tag"
 
-tasks.register<JavaExec>("createKey") {
+tasks.register<JavaExec>("createHmacKey") {
     description = "Creates an HMAC key."
-    mainClass = "org.efford.tink.CreateKeyKt"
+    mainClass = "org.efford.tink.CreateHmacKeyKt"
     args = listOf(keyFile)
     doLast {
         println("\nKey written to $keyFile")
@@ -31,7 +31,7 @@ tasks.register<JavaExec>("computeTag") {
     description = "Computes an authentication tag for a sample data file."
     mainClass = "org.efford.tink.ComputeTagKt"
     args = listOf(keyFile, dataFile, authTag)
-    mustRunAfter("createKey")
+    mustRunAfter("createHmacKey")
     doLast {
         println("\nAuth tag written to $authTag")
     }
@@ -52,8 +52,8 @@ tasks.withType(JavaExec::class).configureEach {
     classpath = sourceSets.main.get().runtimeClasspath
 }
 
-tasks.register("all") {
+tasks.register("hmacdemo") {
     group = "application"
-    description = "Runs createKey, computeTag & verifyTag tasks."
-    dependsOn("createKey", "computeTag", "verifyTag")
+    description = "Runs createHmacKey, computeTag & verifyTag tasks."
+    dependsOn("createHmacKey", "computeTag", "verifyTag")
 }
