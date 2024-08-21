@@ -59,4 +59,7 @@ tasks.register("hybridDemo") {
     group = "application"
     description = "Runs createHybridKeys, hybridEncrypt & hybridDecrypt tasks."
     dependsOn("createHybridKeys", "hybridEncrypt", "hybridDecrypt")
+    doLast {
+        println("\nDone!")
+    }
 }

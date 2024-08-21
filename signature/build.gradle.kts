@@ -58,4 +58,7 @@ tasks.register("sigDemo") {
     group = "application"
     description = "Runs createSigKeys, signFile & verifySig tasks."
     dependsOn("createSigKeys", "signFile", "verifySig")
+    doLast {
+        println("\nDone!")
+    }
 }

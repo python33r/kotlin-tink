@@ -56,4 +56,7 @@ tasks.register("hmacDemo") {
     group = "application"
     description = "Runs createHmacKey, computeTag & verifyTag tasks."
     dependsOn("createHmacKey", "computeTag", "verifyTag")
+    doLast {
+        println("\nDone!")
+    }
 }

@@ -58,4 +58,7 @@ tasks.register("symDemo") {
     group = "application"
     description = "Runs createCipherKey, symEncrypt & symDecrypt tasks."
     dependsOn("createCipherKey", "symEncrypt", "symDecrypt")
+    doLast {
+        println("\nDone!")
+    }
 }
