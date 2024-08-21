@@ -127,6 +127,46 @@ There is a convenient shortcut for running all three tasks in sequence:
 ,/gradlew hybridDemo
 ```
 
+## signature
+
+This project demonstrates the use of Tink to generate and verify Ed25519
+digital signatures.
+
+To create the key pair needed for signing and verification, do
+
+```shell
+./gradlew createSigKeys
+```
+
+The keys will be created in `signature/build`, as files `private_key.json`
+and `public_key.json`.
+
+To sign the file `data/message.txt` with the previously generated private
+key, do
+
+```shell
+./gradlew signFile
+```
+
+The signature will be created in `signature/build`, as the file
+`message.txt.sig`.
+
+To verify the signature generated for `data/message.txt`, do
+
+```shell
+./gradlew verifySig
+```
+
+This should print a message indicating that the signature is OK. You can
+make the verification fail by altering `data/message.txt` prior to executing
+this task.
+
+There is a convenient shortcut for running all three tasks in sequence:
+
+```shell
+./gradlew sigDemo
+```
+
 [tnk]: https://developers.google.com/tink
 [gra]: https://gradle.org/
 [hmc]: https://en.wikipedia.org/wiki/HMAC
