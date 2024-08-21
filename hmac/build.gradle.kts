@@ -52,7 +52,7 @@ tasks.withType(JavaExec::class).configureEach {
     classpath = sourceSets.main.get().runtimeClasspath
 }
 
-tasks.register("hmacdemo") {
+tasks.register("hmacDemo") {
     group = "application"
     description = "Runs createHmacKey, computeTag & verifyTag tasks."
     dependsOn("createHmacKey", "computeTag", "verifyTag")

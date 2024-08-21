@@ -55,7 +55,7 @@ tasks.withType(JavaExec::class).configureEach {
     classpath = sourceSets.main.get().runtimeClasspath
 }
 
-tasks.register("hybriddemo") {
+tasks.register("hybridDemo") {
     group = "application"
     description = "Runs createKeyPair, hybridEncrypt & hybridDecrypt tasks."
     dependsOn("createKeyPair", "hybridEncrypt", "hybridDecrypt")

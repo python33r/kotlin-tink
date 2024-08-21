@@ -54,7 +54,7 @@ tasks.withType(JavaExec::class).configureEach {
     classpath = sourceSets.main.get().runtimeClasspath
 }
 
-tasks.register("symdemo") {
+tasks.register("symDemo") {
     group = "application"
     description = "Runs createCipherKey, symEncrypt & symDecrypt tasks."
     dependsOn("createCipherKey", "symEncrypt", "symDecrypt")

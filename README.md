@@ -18,7 +18,7 @@ This project demonstrates the use of [HMAC][hmc] for message authentication.
 To generate an HMAC key, do
 
 ```shell
-./gradlew :hmac:createHmacKey
+./gradlew createHmacKey
 ```
 
 The key will be stored in the `hmac/build` directory, as file `key.json`.
@@ -27,7 +27,7 @@ To use the generated key to compute an authentication tag for the message
 `data/message.txt`, do
 
 ```shell
-./gradlew :hmac:computeTag
+./gradlew computeTag
 ```
 
 The tag will be stored in `hmac/build`, as the binary file `message.txt.tag`.
@@ -36,7 +36,7 @@ To verify `data/message.txt` using the previously generated key and auth
 tag, do
 
 ```shell
-./gradlew :hmac:verifyTag
+./gradlew verifyTag
 ```
 
 This should print a message indicating that authentication succeeded.
@@ -46,7 +46,7 @@ prior to executing this task.
 There is a convenient shortcut for running all three tasks in sequence:
 
 ```shell
-,/gradlew :hmac:hmacdemo
+,/gradlew hmacDemo
 ```
 
 ## symcipher
@@ -57,7 +57,7 @@ precisely, AES in [Galois/Counter Mode][gcm]).
 To generate an AES-GCM key, do
 
 ```shell
-./gradlew :symcipher:createCipherKey
+./gradlew createCipherKey
 ```
 
 The key will be stored in the `symcipher/build` directory, as file `key.json`.
@@ -65,7 +65,7 @@ The key will be stored in the `symcipher/build` directory, as file `key.json`.
 To use the generated key to encrypt the message `data/message.txt`, do
 
 ```shell
-./gradlew :symcipher:symEncrypt
+./gradlew symEncrypt
 ```
 
 The resulting ciphertext will be stored in `symcipher/build`, as the binary
@@ -74,7 +74,7 @@ file `encrypted.bin`.
 To decrypt this ciphertext using the previously generated key, do
 
 ```shell
-./gradlew :symcipher:symDecrypt
+./gradlew symDecrypt
 ```
 
 The result of decryption will be stored in `symcipher/build`, as the file
@@ -84,7 +84,7 @@ files should be identical.
 There is a convenient shortcut for running all three tasks in sequence:
 
 ```shell
-,/gradlew :symcipher:symdemo
+,/gradlew symDemo
 ```
 
 ## hybrid
@@ -96,7 +96,7 @@ public key encryption.
 To generate a private key and public key, do
 
 ```shell
-./gradlew :hybrid:createKeyPair
+./gradlew createKeyPair
 ```
 
 The keys will be created in `hybrid/build`, as files `private_key.json` and
@@ -105,7 +105,7 @@ The keys will be created in `hybrid/build`, as files `private_key.json` and
 To encrypt the message in `data/message.txt` using the public key, do
 
 ```shell
-./gradlew :hybrid:hybridEncrypt
+./gradlew hybridEncrypt
 ```
 
 The resulting ciphertext will be stored in `hybrid/build`, as the binary
@@ -114,7 +114,7 @@ file `encrypted.bin`.
 To decrypt this ciphertext using the previously generated private key, do
 
 ```shell
-./gradlew :hybrid:hybridDecrypt
+./gradlew hybridDecrypt
 ```
 
 The result of decryption will be stored in `hybrid/build`, as the file
@@ -124,7 +124,7 @@ should be identical.
 There is a convenient shortcut for running all three tasks in sequence:
 
 ```shell
-,/gradlew :hybrid:hybriddemo
+,/gradlew hybridDemo
 ```
 
 [tnk]: https://developers.google.com/tink
