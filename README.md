@@ -96,7 +96,7 @@ public key encryption.
 To generate a private key and public key, do
 
 ```shell
-./gradlew createKeyPair
+./gradlew createHybridKeys
 ```
 
 The keys will be created in `hybrid/build`, as files `private_key.json` and
