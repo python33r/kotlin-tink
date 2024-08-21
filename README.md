@@ -87,8 +87,49 @@ There is a convenient shortcut for running all three tasks in sequence:
 ,/gradlew :symcipher:symdemo
 ```
 
+## hybrid
+
+This project demonstrates a [hybrid encryption][hyb] scheme, in which a
+message is encrypted using AES-GCM and the AES key is protected using
+public key encryption.
+
+To generate a private key and public key, do
+
+```shell
+./gradlew :hybrid:createKeyPair
+```
+
+The keys will be created in `hybrid/build`, as files `private_key.json` and
+`public_key.json`.
+
+To encrypt the message in `data/message.txt` using the public key, do
+
+```shell
+./gradlew :hybrid:hybridEncrypt
+```
+
+The resulting ciphertext will be stored in `hybrid/build`, as the binary
+file `encrypted.bin`.
+
+To decrypt this ciphertext using the previously generated private key, do
+
+```shell
+./gradlew :hybrid:hybridDecrypt
+```
+
+The result of decryption will be stored in `hybrid/build`, as the file
+`decrypted.txt`. You can compare this with `data/message.txt`; the two files
+should be identical.
+
+There is a convenient shortcut for running all three tasks in sequence:
+
+```shell
+,/gradlew :hybrid:hybriddemo
+```
+
 [tnk]: https://developers.google.com/tink
 [gra]: https://gradle.org/
 [hmc]: https://en.wikipedia.org/wiki/HMAC
 [aes]: https://en.wikipedia.org/wiki/Advanced_Encryption_Standard
 [gcm]: https://en.wikipedia.org/wiki/Galois/Counter_Mode
+[hyb]: https://en.wikipedia.org/wiki/Hybrid_cryptosystem
