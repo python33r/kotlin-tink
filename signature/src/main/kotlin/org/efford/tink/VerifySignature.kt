@@ -43,7 +43,7 @@ fun main(args: Array<String>) {
 
     try {
         verifier.verify(signature, data)
-        println("Signature is valid.")
+        println("Signature is valid")
     }
     catch (error: GeneralSecurityException) {
         println(">>> Signature is NOT valid! <<<")

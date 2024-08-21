@@ -15,6 +15,8 @@ fun main(args: Array<String>) {
         exitProcess(1)
     }
 
+    val keyPath = Paths.get(args[0])
+
     // Configure Tink to use MAC primitives
 
     MacConfig.register()
@@ -29,5 +31,5 @@ fun main(args: Array<String>) {
     val serializedKey = TinkJsonProtoKeysetFormat.serializeKeyset(
         key, InsecureSecretKeyAccess.get())
 
-    Files.write(Paths.get(args[0]), serializedKey.encodeToByteArray())
+    Files.write(keyPath, serializedKey.encodeToByteArray())
 }

@@ -19,6 +19,10 @@ fun main(args: Array<String>) {
         exitProcess(1)
     }
 
+    val keyPath = Paths.get(args[0])
+    val filePath = Paths.get(args[1])
+    val tagPath = Paths.get(args[2])
+
     // Configure Tink to use MAC primitives
 
     MacConfig.register()
@@ -26,16 +30,14 @@ fun main(args: Array<String>) {
     // Load key details from file specified on command line
     // (Note: done insecurely, for convenience)
 
-    val serializedKey = String(Files.readAllBytes(Paths.get(args[0])))
-
     val key = TinkJsonProtoKeysetFormat.parseKeyset(
-        serializedKey,
+        String(Files.readAllBytes(keyPath)),
         InsecureSecretKeyAccess.get()
     )
 
     // Read data to be tagged from file specified on command line
 
-    val data = Files.readAllBytes(Paths.get(args[1]))
+    val data = Files.readAllBytes(filePath)
 
     // Compute tag for the data
 
@@ -44,5 +46,5 @@ fun main(args: Array<String>) {
 
     // Write tag to file specified on command line
 
-    Files.write(Paths.get(args[2]), tag)
+    Files.write(tagPath, tag)
 }
