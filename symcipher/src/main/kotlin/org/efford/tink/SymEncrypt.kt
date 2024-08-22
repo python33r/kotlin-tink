@@ -4,8 +4,7 @@ import com.google.crypto.tink.Aead
 import com.google.crypto.tink.InsecureSecretKeyAccess
 import com.google.crypto.tink.TinkJsonProtoKeysetFormat
 import com.google.crypto.tink.aead.AeadConfig
-import java.nio.file.Files
-import java.nio.file.Paths
+import java.io.File
 import kotlin.system.exitProcess
 
 fun main(args: Array<String>) {
@@ -19,9 +18,9 @@ fun main(args: Array<String>) {
         exitProcess(1)
     }
 
-    val keyPath = Paths.get(args[0])
-    val plaintextPath = Paths.get(args[1])
-    val ciphertextPath = Paths.get(args[2])
+    val keyPath = File(args[0])
+    val plaintextPath = File(args[1])
+    val ciphertextPath = File(args[2])
 
     // Configure Tink to do AEAD
 
@@ -31,13 +30,13 @@ fun main(args: Array<String>) {
     // (Note: done insecurely, for convenience)
 
     val key = TinkJsonProtoKeysetFormat.parseKeyset(
-        String(Files.readAllBytes(keyPath)),
+        keyPath.readText(),
         InsecureSecretKeyAccess.get()
     )
 
     // Read plaintext from file specified on the command line
 
-    val plaintext = Files.readAllBytes(plaintextPath)
+    val plaintext = plaintextPath.readBytes()
 
     // Perform the encryption
 
@@ -46,5 +45,5 @@ fun main(args: Array<String>) {
 
     // Write ciphertext to file specified on the command line
 
-    Files.write(ciphertextPath, ciphertext)
+    ciphertextPath.writeBytes(ciphertext)
 }

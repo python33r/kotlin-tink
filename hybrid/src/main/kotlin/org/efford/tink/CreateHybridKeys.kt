@@ -5,8 +5,7 @@ import com.google.crypto.tink.KeyTemplates
 import com.google.crypto.tink.KeysetHandle
 import com.google.crypto.tink.TinkJsonProtoKeysetFormat
 import com.google.crypto.tink.hybrid.HybridConfig
-import java.nio.file.Files
-import java.nio.file.Paths
+import java.io.File
 import kotlin.system.exitProcess
 
 fun main(args: Array<String>) {
@@ -19,8 +18,8 @@ fun main(args: Array<String>) {
         exitProcess(1)
     }
 
-    val privateKeyPath = Paths.get(args[0])
-    val publicKeyPath = Paths.get(args[1])
+    val privateKeyPath = File(args[0])
+    val publicKeyPath = File(args[1])
 
     // Configure Tink to use hybrid encryption primitives
 
@@ -38,12 +37,12 @@ fun main(args: Array<String>) {
     var serializedKey = TinkJsonProtoKeysetFormat.serializeKeyset(
         privateKey, InsecureSecretKeyAccess.get())
 
-    Files.write(privateKeyPath, serializedKey.toByteArray())
+    privateKeyPath.writeText(serializedKey)
 
     // Extract public key and write it to another JSON file
 
     val publicKey = privateKey.publicKeysetHandle
     serializedKey = TinkJsonProtoKeysetFormat.serializeKeysetWithoutSecret(publicKey)
 
-    Files.write(publicKeyPath, serializedKey.toByteArray())
+    publicKeyPath.writeText(serializedKey)
 }

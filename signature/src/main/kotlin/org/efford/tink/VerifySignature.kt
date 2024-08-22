@@ -3,25 +3,24 @@ package org.efford.tink
 import com.google.crypto.tink.PublicKeyVerify
 import com.google.crypto.tink.TinkJsonProtoKeysetFormat
 import com.google.crypto.tink.signature.SignatureConfig
-import java.nio.file.Files
-import java.nio.file.Paths
+import java.io.File
 import java.security.GeneralSecurityException
 import kotlin.system.exitProcess
 
 fun main(args: Array<String>) {
     if (args.size != 3) {
         println("""
-            Error: 3 command line arguments are required!
+            Error: three command line arguments are required!
               - path to public key file
               - path to file that is to be verified
-              - path to file containing the signature
+              - path to signature file
         """.trimIndent())
         exitProcess(1)
     }
 
-    val keyPath = Paths.get(args[0])
-    val filePath = Paths.get(args[1])
-    val signaturePath = Paths.get(args[2])
+    val keyPath = File(args[0])
+    val filePath = File(args[1])
+    val signaturePath = File(args[2])
 
     // Configure Tink to use digital signature primitives
 
@@ -29,13 +28,13 @@ fun main(args: Array<String>) {
 
     // Load public key from file specified on command line
 
-    val serializedKey = String(Files.readAllBytes(keyPath))
+    val serializedKey = keyPath.readText()
     val key = TinkJsonProtoKeysetFormat.parseKeysetWithoutSecret(serializedKey)
 
     // Read contents of file and corresponding signature
 
-    val data = Files.readAllBytes(filePath)
-    val signature = Files.readAllBytes(signaturePath)
+    val data = filePath.readBytes()
+    val signature = signaturePath.readBytes()
 
     // Attempt to verify signature
 

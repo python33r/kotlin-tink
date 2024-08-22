@@ -4,24 +4,23 @@ import com.google.crypto.tink.InsecureSecretKeyAccess
 import com.google.crypto.tink.PublicKeySign
 import com.google.crypto.tink.TinkJsonProtoKeysetFormat
 import com.google.crypto.tink.signature.SignatureConfig
-import java.nio.file.Files
-import java.nio.file.Paths
+import java.io.File
 import kotlin.system.exitProcess
 
 fun main(args: Array<String>) {
     if (args.size != 3) {
         println("""
-            Error: 3 command line arguments are required!
+            Error: three command line arguments are required!
               - path to private key file
               - path to file that is to be signed
-              - path to file that will contain the signature
+              - path to signature file
         """.trimIndent())
         exitProcess(1)
     }
 
-    val keyPath = Paths.get(args[0])
-    val filePath = Paths.get(args[1])
-    val signaturePath = Paths.get(args[2])
+    val keyPath = File(args[0])
+    val filePath = File(args[1])
+    val signaturePath = File(args[2])
 
     // Configure Tink to use digital signature primitives
 
@@ -31,13 +30,13 @@ fun main(args: Array<String>) {
     // (Note: insecure, done this way purely for convenience)
 
     val key = TinkJsonProtoKeysetFormat.parseKeyset(
-        String(Files.readAllBytes(keyPath)),
+        keyPath.readText(),
         InsecureSecretKeyAccess.get()
     )
 
     // Read contents of file to be signed
 
-    val data = Files.readAllBytes(filePath)
+    val data = filePath.readBytes()
 
     // Sign file contents
 
@@ -46,5 +45,5 @@ fun main(args: Array<String>) {
 
     // Write signature to a binary file
 
-    Files.write(signaturePath, signature)
+    signaturePath.writeBytes(signature)
 }

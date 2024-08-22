@@ -3,8 +3,7 @@ package org.efford.tink
 import com.google.crypto.tink.HybridEncrypt
 import com.google.crypto.tink.TinkJsonProtoKeysetFormat
 import com.google.crypto.tink.hybrid.HybridConfig
-import java.nio.file.Files
-import java.nio.file.Paths
+import java.io.File
 import kotlin.system.exitProcess
 
 fun main(args: Array<String>) {
@@ -18,9 +17,9 @@ fun main(args: Array<String>) {
         exitProcess(1)
     }
 
-    val publicKeyPath = Paths.get(args[0])
-    val plaintextPath = Paths.get(args[1])
-    val ciphertextPath = Paths.get(args[2])
+    val publicKeyPath = File(args[0])
+    val plaintextPath = File(args[1])
+    val ciphertextPath = File(args[2])
 
     // Configure Tink to use hybrid encryption primitives
 
@@ -28,12 +27,12 @@ fun main(args: Array<String>) {
 
     // Load key material from JSON file specified on the command line
 
-    val serializedKey = String(Files.readAllBytes(publicKeyPath))
+    val serializedKey = publicKeyPath.readText()
     val key = TinkJsonProtoKeysetFormat.parseKeysetWithoutSecret(serializedKey)
 
     // Read plaintext from file specified on the command line
 
-    val plaintext = Files.readAllBytes(plaintextPath)
+    val plaintext = plaintextPath.readBytes()
 
     // Perform the encryption
 
@@ -42,5 +41,5 @@ fun main(args: Array<String>) {
 
     // Write ciphertext to file specified on the command line
 
-    Files.write(ciphertextPath, ciphertext)
+    ciphertextPath.writeBytes(ciphertext)
 }

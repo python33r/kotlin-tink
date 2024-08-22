@@ -5,8 +5,7 @@ import com.google.crypto.tink.KeyTemplates
 import com.google.crypto.tink.KeysetHandle
 import com.google.crypto.tink.TinkJsonProtoKeysetFormat
 import com.google.crypto.tink.aead.AeadConfig
-import java.nio.file.Files
-import java.nio.file.Paths
+import java.io.File
 import kotlin.system.exitProcess
 
 fun main(args: Array<String>) {
@@ -15,7 +14,7 @@ fun main(args: Array<String>) {
         exitProcess(1)
     }
 
-    val keyPath = Paths.get(args[0])
+    val keyPath = File(args[0])
 
     // Configure Tink to use AEAD primitives
 
@@ -32,5 +31,5 @@ fun main(args: Array<String>) {
         key, InsecureSecretKeyAccess.get()
     )
 
-    Files.write(keyPath, serializedKey.toByteArray())
+    keyPath.writeText(serializedKey)
 }

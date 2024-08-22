@@ -4,8 +4,7 @@ import com.google.crypto.tink.HybridDecrypt
 import com.google.crypto.tink.InsecureSecretKeyAccess
 import com.google.crypto.tink.TinkJsonProtoKeysetFormat
 import com.google.crypto.tink.hybrid.HybridConfig
-import java.nio.file.Files
-import java.nio.file.Paths
+import java.io.File
 import kotlin.system.exitProcess
 
 fun main(args: Array<String>) {
@@ -19,9 +18,9 @@ fun main(args: Array<String>) {
         exitProcess(1)
     }
 
-    val privateKeyPath = Paths.get(args[0])
-    val ciphertextPath = Paths.get(args[1])
-    val plaintextPath = Paths.get(args[2])
+    val privateKeyPath = File(args[0])
+    val ciphertextPath = File(args[1])
+    val plaintextPath = File(args[2])
 
     // Configure Tink to use hybrid encryption primitives
 
@@ -31,13 +30,13 @@ fun main(args: Array<String>) {
     // (Note: insecure, done this way purely for convenience)
 
     val key = TinkJsonProtoKeysetFormat.parseKeyset(
-        String(Files.readAllBytes(privateKeyPath)),
+        privateKeyPath.readText(),
         InsecureSecretKeyAccess.get()
     )
 
     // Read ciphertext from file specified on the command line
 
-    val ciphertext = Files.readAllBytes(ciphertextPath)
+    val ciphertext = ciphertextPath.readBytes()
 
     // Perform the decryption
 
@@ -46,5 +45,5 @@ fun main(args: Array<String>) {
 
     // Write plaintext to file specified on the command line
 
-    Files.write(plaintextPath, plaintext)
+    plaintextPath.writeBytes(plaintext)
 }

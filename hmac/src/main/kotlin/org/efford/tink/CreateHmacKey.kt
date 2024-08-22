@@ -5,17 +5,16 @@ import com.google.crypto.tink.KeyTemplates
 import com.google.crypto.tink.KeysetHandle
 import com.google.crypto.tink.TinkJsonProtoKeysetFormat
 import com.google.crypto.tink.mac.MacConfig
-import java.nio.file.Files
-import java.nio.file.Paths
+import java.io.File
 import kotlin.system.exitProcess
 
 fun main(args: Array<String>) {
     if (args.size != 1) {
-        println("Error: key filename required as a command line argument")
+        println("Error: path to key file required as a command line argument")
         exitProcess(1)
     }
 
-    val keyPath = Paths.get(args[0])
+    val keyPath = File(args[0])
 
     // Configure Tink to use MAC primitives
 
@@ -31,5 +30,5 @@ fun main(args: Array<String>) {
     val serializedKey = TinkJsonProtoKeysetFormat.serializeKeyset(
         key, InsecureSecretKeyAccess.get())
 
-    Files.write(keyPath, serializedKey.encodeToByteArray())
+    keyPath.writeText(serializedKey)
 }

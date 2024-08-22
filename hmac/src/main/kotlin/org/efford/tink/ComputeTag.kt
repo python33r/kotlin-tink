@@ -4,24 +4,23 @@ import com.google.crypto.tink.InsecureSecretKeyAccess
 import com.google.crypto.tink.Mac
 import com.google.crypto.tink.TinkJsonProtoKeysetFormat
 import com.google.crypto.tink.mac.MacConfig
-import java.nio.file.Files
-import java.nio.file.Paths
+import java.io.File
 import kotlin.system.exitProcess
 
 fun main(args: Array<String>) {
     if (args.size != 3) {
         println("""
-            Error: 3 command line arguments are required!
-              - filename of MAC key
-              - name of file for which an authentication tag is required
-              - name of file that will contain the authentication tag
+            Error: three command line arguments are required!
+              - path to MAC key file
+              - path to file for which an authentication tag is required
+              - path to file that will contain the authentication tag
         """.trimIndent())
         exitProcess(1)
     }
 
-    val keyPath = Paths.get(args[0])
-    val filePath = Paths.get(args[1])
-    val tagPath = Paths.get(args[2])
+    val keyPath = File(args[0])
+    val filePath = File(args[1])
+    val tagPath = File(args[2])
 
     // Configure Tink to use MAC primitives
 
@@ -31,13 +30,13 @@ fun main(args: Array<String>) {
     // (Note: done insecurely, for convenience)
 
     val key = TinkJsonProtoKeysetFormat.parseKeyset(
-        String(Files.readAllBytes(keyPath)),
+        keyPath.readText(),
         InsecureSecretKeyAccess.get()
     )
 
     // Read data to be tagged from file specified on command line
 
-    val data = Files.readAllBytes(filePath)
+    val data = filePath.readBytes()
 
     // Compute tag for the data
 
@@ -46,5 +45,5 @@ fun main(args: Array<String>) {
 
     // Write tag to file specified on command line
 
-    Files.write(tagPath, tag)
+    tagPath.writeBytes(tag)
 }
