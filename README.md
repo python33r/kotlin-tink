@@ -3,9 +3,15 @@
 Examples of using the [Tink][tnk] cryptography library in Kotlin.
 
 Each example is structured as a separate [Gradle][gra] subproject. If you
-are working from the command line rather an IDE, the Gradle commands
-shown below should all be executed in the top-level directory, not the
-subproject directory.
+are working from the command line rather an IDE, the Gradle tasks shown
+should all be executed in the top-level directory, not the subproject
+directory.
+
+The Gradle tasks below use defaults for all of the required files. If you
+wish to specify your own files, you can add the `--args` option on the
+command line when executing a task, following it with a quoted string
+containing all of the command line arguments that the corresponding
+program expects to receive.
 
 **NOTE**: the cryptographic keys generated and used in these examples
 are stored in cleartext on the local disk. This is clearly insecure and
