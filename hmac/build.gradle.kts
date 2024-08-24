@@ -23,7 +23,8 @@ tasks.register<JavaExec>("createHmacKey") {
     mainClass = "org.efford.tink.CreateHmacKeyKt"
     args = listOf(keyFile)
     doLast {
-        println("\nKey written to $keyFile")
+        val usedArgs = args as List<String>
+        println("\nKey written to ${usedArgs[0]}")
     }
 }
 
@@ -33,7 +34,8 @@ tasks.register<JavaExec>("computeTag") {
     args = listOf(keyFile, dataFile, authTag)
     mustRunAfter("createHmacKey")
     doLast {
-        println("\nAuth tag written to $authTag")
+        val usedArgs = args as List<String>
+        println("\nAuth tag written to ${usedArgs[2]}")
     }
 }
 

@@ -24,7 +24,8 @@ tasks.register<JavaExec>("createCipherKey") {
     mainClass = "org.efford.tink.CreateCipherKeyKt"
     args = listOf(keyFile)
     doLast {
-        println("\nKey written to $keyFile")
+        val usedArgs = args as List<String>
+        println("\nKey written to ${usedArgs[0]}")
     }
 }
 
@@ -34,7 +35,9 @@ tasks.register<JavaExec>("symEncrypt") {
     args = listOf(keyFile, dataFile, encrypted)
     mustRunAfter("createCipherKey")
     doLast {
-        println("\nCiphertext written to $encrypted")
+        val usedArgs = args as List<String>
+        println("\nPlaintext was ${usedArgs[1]}")
+        println("Ciphertext written to ${usedArgs[2]}")
     }
 }
 
@@ -44,8 +47,9 @@ tasks.register<JavaExec>("symDecrypt") {
     args = listOf(keyFile, encrypted, decrypted)
     mustRunAfter("symEncrypt")
     doLast {
-        println("\nDecrypted plaintext written to $decrypted")
-        println("(Compare this with $dataFile)")
+        val usedArgs = args as List<String>
+        println("\nDecrypted plaintext written to ${usedArgs[2]}")
+        println("(Compare this with the original plaintext)")
     }
 }
 

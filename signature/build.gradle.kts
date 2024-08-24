@@ -24,7 +24,9 @@ tasks.register<JavaExec>("createSigKeys") {
     mainClass = "org.efford.tink.CreateSigKeysKt"
     args = listOf(privateKey, publicKey)
     doLast {
-        println("\nKeys written to $privateKey and $publicKey")
+        val usedArgs = args as List<String>
+        println("\nPrivate key written to ${usedArgs[0]}")
+        println("Public key written to ${usedArgs[1]}")
     }
 }
 
@@ -34,8 +36,9 @@ tasks.register<JavaExec>("signFile") {
     args = listOf(privateKey, dataFile, signature)
     mustRunAfter("createSigKeys")
     doLast {
-        println("\n$dataFile signed")
-        println("Signature written to $signature")
+        val usedArgs = args as List<String>
+        println("\n${usedArgs[1]} signed")
+        println("Signature written to ${usedArgs[2]}")
     }
 }
 

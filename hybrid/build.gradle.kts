@@ -25,7 +25,9 @@ tasks.register<JavaExec>("createHybridKeys") {
     mainClass = "org.efford.tink.CreateHybridKeysKt"
     args = listOf(privateKey, publicKey)
     doLast {
-        println("\nKeys written to $privateKey and $publicKey")
+        val usedArgs = args as List<String>
+        println("\nPrivate key written to ${usedArgs[0]}")
+        println("Public key written to ${usedArgs[1]}")
     }
 }
 
@@ -35,7 +37,9 @@ tasks.register<JavaExec>("hybridEncrypt") {
     args = listOf(publicKey, dataFile, encrypted)
     mustRunAfter("createHybridKeys")
     doLast {
-        println("\nCiphertext written to $encrypted")
+        val usedArgs = args as List<String>
+        println("\nPlaintext was ${usedArgs[1]}")
+        println("Ciphertext written to ${usedArgs[2]}")
     }
 }
 
@@ -45,8 +49,9 @@ tasks.register<JavaExec>("hybridDecrypt") {
     args = listOf(privateKey, encrypted, decrypted)
     mustRunAfter("hybridEncrypt")
     doLast {
-        println("\nDecrypted plaintext written to $decrypted")
-        println("(Compare this with $dataFile)")
+        val usedArgs = args as List<String>
+        println("\nDecrypted plaintext written to ${usedArgs[2]}")
+        println("(Compare this with original plaintext)")
     }
 }
 
